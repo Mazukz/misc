@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Countdown</title>
+</head>
+<body>
+    <h1 class="title">Date Countdown</h1>
+    <div id="countdown">
+        <div id="days" class="time-box">
+            <div class="time-value"></div>
+            <div class="time-label">Days</div>
+        </div>
+        <div id="hours" class="time-box">
+            <div class="time-value"></div>
+            <div class="time-label">Hours</div>
+        </div>
+        <div id="minutes" class="time-box">
+            <div class="time-value"></div>
+            <div class="time-label">Minutes</div>
+        </div>
+        <div id="seconds" class="time-box">
+            <div class="time-value" id="seconds-value"></div>
+            <div class="time-label" id="seconds-label">Seconds</div>
+        </div>
+    </div>
+    <br>
+    <div id="information", class="information-box">
+        <div id="information-value" class="information-value"></div>
+    </div>
+    <script>
+        function updateTime() {
+            let days = parseInt(document.getElementById('days').getElementsByClassName('time-value')[0].textContent, 10);
+            let hours = parseInt(document.getElementById('hours').getElementsByClassName('time-value')[0].textContent, 10);
+            let minutes = parseInt(document.getElementById('minutes').getElementsByClassName('time-value')[0].textContent, 10);
+            let seconds = parseInt(document.getElementById('seconds-value').textContent, 10) - 1;
+    
+            if (seconds < 0) {
+                seconds = 59;
+                minutes -= 1;
+            }
+            if (minutes < 0) {
+                minutes = 59;
+                hours -= 1;
+            }
+            if (hours < 0) {
+                hours = 23;
+                days -= 1;
+            }
+    
+            document.getElementById('days').getElementsByClassName('time-value')[0].textContent = days;
+            document.getElementById('hours').getElementsByClassName('time-value')[0].textContent = hours;
+            document.getElementById('minutes').getElementsByClassName('time-value')[0].textContent = minutes;
+            document.getElementById('seconds-value').textContent = seconds;
+    
+            document.getElementById('days').getElementsByClassName('time-label')[0].textContent = (days === 1 || days === 0) ? 'Day' : 'Days';
+            document.getElementById('hours').getElementsByClassName('time-label')[0].textContent = (hours === 1 || hours === 0) ? 'Hour' : 'Hours';
+            document.getElementById('minutes').getElementsByClassName('time-label')[0].textContent = (minutes === 1 || minutes === 0) ? 'Minute' : 'Minutes';
+            document.getElementById('seconds-label').textContent = (seconds === 1 || seconds === 0) ? 'Second' : 'Seconds';
+    
+            if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {++
+                clearInterval(timeInterval);
+                console.log('Countdown finished');
+                console.log('Liberdade Cantou Porra!');
+
+            }
+        }
+    
+        function convertDaysToMilliseconds(day) {
+            return day * 24 * 60 * 60 * 1000;
+        }
+
+        function convertMillisecondsToDays(milliseconds) {
+            return milliseconds / 24 / 60 / 60 / 1000;
+        }
+
+        function calculateTime() {
+            const now = new Date()
+            const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+            const diff = endOfDay - now;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60))
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            return { hours, minutes, seconds };
+        }
+
+        function getRemainingDays(totalDays=88) {
+            const startDate = new Date('2024-05-06');
+            const endDate = new Date(startDate.getTime() + convertDaysToMilliseconds(totalDays));
+            const timeLeftinDays = convertMillisecondsToDays(endDate.getTime() - new Date().getTime());
+            return { endDate, timeLeftinDays: Math.floor(timeLeftinDays) };
+        }
+
+        function getDayName(day) {
+            var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            return dayNames[day];
+        }
+
+        function getMonthName(monthNumber) {
+            var monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+            return monthNames[monthNumber];
+        }
+
+        function updateClockDisplay() {
+            var time = calculateTime();
+            var remainingdays = getRemainingDays();
+            document.getElementById('days').getElementsByClassName('time-value')[0].textContent = remainingdays.timeLeftinDays;
+            document.getElementById('hours').getElementsByClassName('time-value')[0].textContent = time.hours;
+            document.getElementById('minutes').getElementsByClassName('time-value')[0].textContent = time.minutes;
+            document.getElementById('seconds').getElementsByClassName('time-value')[0].textContent = time.seconds;
+
+            var endDate = remainingdays.endDate;
+            var formattedDate = `${getDayName(endDate.getDay())}, ${endDate.getDate().toString().padStart(2, '0')} ${getMonthName(endDate.getMonth())} ${endDate.getFullYear()}`;
+            document.getElementById('information-value').textContent = `Time until ${formattedDate}`;
+        }
+
+        function initializeClock() {
+
+            updateClockDisplay();
+            var timeInterval = setInterval(updateTime, 1000);
+        }
+
+        window.onload = initializeClock;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .title {
+            margin-top: 50px;
+            font-size: 2em;
+        }
+        #countdown {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .time-box {
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        .time-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .time-label {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</body>
+</html>
