@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
         </div>
     </div>
     <br>
-    <div id="information", class="information-box">
+    <div id="information" class="information-box">
         <div id="information-value" class="information-value"></div>
     </div>
     <script>
@@ -62,8 +63,6 @@
             if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {++
                 clearInterval(timeInterval);
                 console.log('Countdown finished');
-                console.log('Liberdade Cantou Porra!');
-
             }
         }
     
@@ -158,6 +157,29 @@
             font-size: 0.9em;
             color: #666;
         }
+        
+        @media (max-width: 768px) {
+            .title {
+                margin-top: 20px;
+                font-size: 2em; /* Smaller font size */
+            }
+            #countdown {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            }
+            .time-box {
+                margin: 15px 10px; /* Smaller margins */
+                padding: 10px 15px; /* Smaller paddings */
+            }
+            .time-value {
+                font-size: 2em; /* Smaller font size */
+            }
+            .time-label {
+                font-size: 1em; /* Smaller font size */
+            }
+        }
+
     </style>
 </body>
 </html>
